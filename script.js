@@ -63,34 +63,6 @@ console.log(balloonAttack(player1, player2));
 class ShiftCipher {
   constructor(shift) {
     this.shift = shift;
-    this.alphabet = {
-      A: 1,
-      B: 2,
-      C: 3,
-      D: 4,
-      E: 5,
-      F: 6,
-      G: 7,
-      H: 8,
-      I: 9,
-      J: 10,
-      K: 11,
-      L: 12,
-      M: 13,
-      N: 14,
-      O: 15,
-      P: 16,
-      Q: 17,
-      R: 18,
-      S: 19,
-      T: 20,
-      U: 21,
-      V: 22,
-      W: 23,
-      X: 24,
-      Y: 25,
-      Z: 26,
-    };
   }
 
   encrypt(messageToEncrypt) {
@@ -125,35 +97,40 @@ class ShiftCipher {
   decrypt(messageToDecrypt) {
     let decryptedMessage = [];
 
-    for (var i = 0; i < messageToDecrypt.length; i++) {
+    let messageCapitalized = messageToDecrypt.toUpperCase();
+
+    for (var i = 0; i < messageCapitalized.length; i++) {
       let workingChar = messageCapitalized.charCodeAt(i);
-      let addedChar = workingChar + this.shift;
+      let subChar = workingChar - this.shift;
       let lessChar = 0;
 
       //if addedChar is greater than the letter 'Z'
-      if (addedChar > 90) {
-        lessChar = addedChar - 90;
-        lessChar = 64 + lessChar; //start over at A
+      if (subChar < 65) {
+        lessChar = 65 - subChar;
+        lessChar = 91 - lessChar; //start over at Z
       }
 
       //space character
       if (workingChar != 32) {
         if (lessChar > 0) {
-          encryptedMessage.push(lessChar);
+          decryptedMessage.push(String.fromCharCode(lessChar));
         } else {
-          encryptedMessage.push(workingChar + this.shift);
+          decryptedMessage.push(String.fromCharCode(workingChar - this.shift));
         }
       } else {
-        encryptedMessage.push(workingChar);
+        decryptedMessage.push(String.fromCharCode(workingChar));
       }
     }
-    console.log(encryptedMessage);
-    return encryptedMessage;
+
+    return decryptedMessage.join("").toLowerCase();
   }
 }
 
-const myEncrypt = new ShiftCipher(2);
+const myEncrypt = new ShiftCipher(1);
 //console.log(myEncrypt.alphabet["I"]);
-let encryptedString = myEncrypt.encrypt(" zey zz");
+let encryptedString = myEncrypt.encrypt("a");
 console.log(encryptedString);
-//console.log(encryptedString.charCodeAt(1));
+
+//let decryptedString = myEncrypt.decrypt(encryptedString);
+let decryptedString = myEncrypt.decrypt("a");
+console.log(decryptedString);
