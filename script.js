@@ -111,6 +111,34 @@ class ShiftCipher {
       //space character
       if (workingChar != 32) {
         if (lessChar > 0) {
+          encryptedMessage.push(String.fromCharCode(lessChar));
+        } else {
+          encryptedMessage.push(String.fromCharCode(workingChar + this.shift));
+        }
+      } else {
+        encryptedMessage.push(String.fromCharCode(workingChar));
+      }
+    }
+
+    return encryptedMessage.join("");
+  }
+  decrypt(messageToDecrypt) {
+    let decryptedMessage = [];
+
+    for (var i = 0; i < messageToDecrypt.length; i++) {
+      let workingChar = messageCapitalized.charCodeAt(i);
+      let addedChar = workingChar + this.shift;
+      let lessChar = 0;
+
+      //if addedChar is greater than the letter 'Z'
+      if (addedChar > 90) {
+        lessChar = addedChar - 90;
+        lessChar = 64 + lessChar; //start over at A
+      }
+
+      //space character
+      if (workingChar != 32) {
+        if (lessChar > 0) {
           encryptedMessage.push(lessChar);
         } else {
           encryptedMessage.push(workingChar + this.shift);
@@ -122,11 +150,10 @@ class ShiftCipher {
     console.log(encryptedMessage);
     return encryptedMessage;
   }
-  decrypt(messageToDecrypt) {}
 }
 
 const myEncrypt = new ShiftCipher(2);
 //console.log(myEncrypt.alphabet["I"]);
-let encryptedString = myEncrypt.encrypt(" zey ");
-
+let encryptedString = myEncrypt.encrypt(" zey zz");
+console.log(encryptedString);
 //console.log(encryptedString.charCodeAt(1));
